@@ -11,3 +11,7 @@
     (is (= (get edges :3) {:4 1}))
     (is (= (get edges :2) {:5 1, :3 1}))
     (is (= (get edges :1) {:2 1}))))
+
+(deftest test-shortest-path
+  (def graph {:4 {:5 1}, :3 {:4 1}, :2 {:5 1, :3 1}, :1 {:2 1}})
+  (is (= (shortest-path graph :1) {:3 2, :2 1, :1 0, :4 3})))
