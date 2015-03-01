@@ -27,3 +27,12 @@
   (is (= (shortest-path graph :3) {:1 2, :2 1, :3 0, :4 1, :5 2}))
   (is (= (shortest-path graph :4) {:1 3, :2 2, :3 1, :4 0, :5 1}))
   (is (= (shortest-path graph :5) {:1 2, :2 1, :3 2, :4 1, :5 0})))
+
+(deftest test-closeness-centrality
+  (def vertices [[:1 :2] [:2 :3] [:3 :4] [:4 :5] [:2 :5]])
+  (let [results (closeness-centrality vertices)]
+    (is (= (get results :1) 8/5))
+    (is (= (get results :2) 5/5))
+    (is (= (get results :3) 6/5))
+    (is (= (get results :4) 7/5))
+    (is (= (get results :5) 6/5))))

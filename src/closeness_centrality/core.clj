@@ -27,3 +27,16 @@
       (let [next-distances (update-distances graph distances unvisited current)
             next-vertice (apply min-key next-distances unvisited)]
         (recur next-distances next-vertice (disj unvisited next-vertice))))))
+
+(defn shortest-paths [graph]
+  (reduce
+    (fn [m [k v]]
+      (assoc m k (shortest-path graph k)))
+    {}
+    graph))
+
+(defn closeness-centrality [vertices]
+  (let [graph (edges vertices)
+        shortest-paths (shortest-paths graph)]
+    (into {}
+      (map (fn [[k v]] [k (/ (reduce + (vals v)) (count v))]) shortest-paths))))
