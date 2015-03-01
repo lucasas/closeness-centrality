@@ -17,13 +17,13 @@
       distances
       (get graph current))))
 
-(defn shortest-path [graph src]
-  (loop [distances (assoc (zipmap (keys graph) (repeat Double/POSITIVE_INFINITY)) src 0)
-         current src
-         unvisited (disj (apply hash-set (keys graph)) src)]
+(defn shortest-path [graph source]
+  (loop [distances (assoc (zipmap (keys graph) (repeat Double/POSITIVE_INFINITY)) source 0)
+         current source
+         unvisited (disj (apply hash-set (keys graph)) source)]
 
-    (if (or (empty? unvisited) (= Double/POSITIVE_INFINITY (get distances current)))
+    (if (empty? unvisited)
       distances
       (let [next-distances (update-distances graph distances unvisited current)
-            next-node (apply min-key next-distances unvisited)]
-        (recur next-distances next-node (disj unvisited next-node))))))
+            next-vertice (apply min-key next-distances unvisited)]
+        (recur next-distances next-vertice (disj unvisited next-vertice))))))
