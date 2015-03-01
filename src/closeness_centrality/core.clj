@@ -5,7 +5,7 @@
     (fn [m [k v]] 
       (assoc-in m [k v] 1))
     {} 
-    vertices))
+    (into vertices (map reverse vertices))))
 
 (defn update-distances [graph distances unvisited current]
   (let [current-distance (get distances current)]
