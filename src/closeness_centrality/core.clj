@@ -39,4 +39,4 @@
   (let [graph (edges vertices)
         shortest-paths (shortest-paths graph)]
     (into {}
-      (map (fn [[k v]] [k (/ (reduce + (vals v)) (count v))]) shortest-paths))))
+      (map (fn [[k v]] [k (/ (reduce + (vals v)) (- (count v) 1))]) shortest-paths))))
