@@ -32,11 +32,11 @@
 (deftest test-closeness-centrality
   (def vertices [[:1 :2] [:2 :3] [:3 :4] [:4 :5] [:2 :5]])
   (let [results (closeness-centrality vertices)]
-    (is (= (get results :1) 8/4))
-    (is (= (get results :2) 5/4))
-    (is (= (get results :3) 6/4))
-    (is (= (get results :4) 7/4))
-    (is (= (get results :5) 6/4))))
+    (is (= (get results :1) 4/8))
+    (is (= (get results :2) 4/5))
+    (is (= (get results :3) 4/6))
+    (is (= (get results :4) 4/7))
+    (is (= (get results :5) 4/6))))
 
 (deftest test-update-current-vertices
   (with-redefs [current-vertices (ref (load! "resources/tests/edges"))] current-vertices

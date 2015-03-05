@@ -40,7 +40,7 @@
   (let [graph (edges vertices)
         shortest-paths (shortest-paths graph)]
     (into {}
-      (map (fn [[k v]] [k (/ (reduce + (vals v)) (- (count v) 1))]) shortest-paths))))
+      (map (fn [[k v]] [k (/ (- (count v) 1) (reduce + (vals v)))]) shortest-paths))))
 
 (def current-vertices (ref (load! "resources/edges")))
 
