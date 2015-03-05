@@ -1,4 +1,5 @@
-(ns closeness-centrality.core)
+(ns closeness-centrality.core
+  (:require [closeness-centrality.edges_loader :refer :all]))
 
 (defn edges [vertices]
   (reduce 
@@ -40,3 +41,9 @@
         shortest-paths (shortest-paths graph)]
     (into {}
       (map (fn [[k v]] [k (/ (reduce + (vals v)) (- (count v) 1))]) shortest-paths))))
+
+(def current-vertices (ref (load! "resources/edges")))
+
+(defn update-current-vertices [edge]
+  (dosync
+    (commute current-vertices conj edge)))

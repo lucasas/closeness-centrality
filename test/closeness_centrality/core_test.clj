@@ -8,7 +8,8 @@
 
 (ns closeness-centrality.core-test
   (:require [clojure.test :refer :all]
-            [closeness-centrality.core :refer :all]))
+            [closeness-centrality.core :refer :all]
+            [closeness-centrality.edges_loader :refer :all]))
 
 (deftest test-edges
   (def vertices [[:1 :2] [:2 :3] [:3 :4] [:4 :5] [:2 :5]])
@@ -36,3 +37,8 @@
     (is (= (get results :3) 6/4))
     (is (= (get results :4) 7/4))
     (is (= (get results :5) 6/4))))
+
+(deftest test-update-current-vertices
+  (with-redefs [current-vertices (ref (load! "resources/tests/edges"))] current-vertices
+    (let [updated-current-vertices (update-current-vertices [:9 :12])]
+      (is (= updated-current-vertices [[:1 :2] [:2 :3] [:3 :4] [:4 :5] [:2 :5] [:9 :12]])))))
