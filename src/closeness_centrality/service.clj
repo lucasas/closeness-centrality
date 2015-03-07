@@ -5,6 +5,7 @@
             [io.pedestal.http.route.definition :refer [defroutes]]
             [cheshire.core :refer :all]
             [closeness-centrality.core :refer :all]
+            [closeness-centrality.utils :refer :all]
             [halresource.resource :as hal]
             [ring.util.response :as ring-resp]))
 
@@ -22,12 +23,8 @@
   (let [origin (get (:params request) "origin")
         destiny (get (:params request) "destiny")
         vertices (update-current-vertices [(keyword origin) (keyword destiny)])
-        customers (closeness-centrality vertices)
-        sorted-customers (into (sorted-map-by (fn [key1 key2]
-                                                (compare [(get customers key2) key2]
-                                                         [(get customers key1) key1])))
-                               customers)]
-    (ring-resp/response (generate-string sorted-customers))))
+        customers (sorted-map-by-value (closeness-centrality vertices))]
+    (ring-resp/response (generate-string customers))))
 
 (defroutes routes
   [[["/" {:get home}
