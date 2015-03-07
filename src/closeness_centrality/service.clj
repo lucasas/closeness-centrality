@@ -6,6 +6,7 @@
             [cheshire.core :refer :all]
             [closeness-centrality.core :refer :all]
             [closeness-centrality.utils :refer :all]
+            [closeness-centrality.customer :refer :all]
             [halresource.resource :as hal]
             [ring.util.response :as ring-resp]))
 
@@ -22,9 +23,8 @@
 (defn create-edge [request]
   (let [origin (get (:params request) "origin")
         destiny (get (:params request) "destiny")
-        vertices (update-current-vertices [(keyword origin) (keyword destiny)])
-        customers (sorted-map-by-value (closeness-centrality vertices))]
-    (ring-resp/response (generate-string customers))))
+        vertices (update-current-vertices [(keyword origin) (keyword destiny)])]
+    (ring-resp/response (generate-string @customers))))
 
 (defroutes routes
   [[["/" {:get home}

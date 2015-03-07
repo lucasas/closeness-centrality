@@ -6,8 +6,8 @@
   (let [customer (Customer :1 0.98)]
     (is (= customer {:id :1 :closeness-centrality 0.98}))))
 
-(deftest test-load!
-  (let [customers (load! {:1 0.98 :2 0.78})]
+(deftest test-all
+  (let [customers (all {:1 0.98 :2 0.78})]
     (is (= (count customers) 2))
     (is (= (first customers) {:id :1 :closeness-centrality 0.98}))
     (is (= (last customers) {:id :2 :closeness-centrality 0.78}))))
