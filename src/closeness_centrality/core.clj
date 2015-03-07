@@ -1,13 +1,6 @@
 (ns closeness-centrality.core
   (:require [closeness-centrality.edges_loader :refer :all]))
 
-(defn edges [vertices]
-  (reduce 
-    (fn [m [k v]] 
-      (assoc-in m [k v] 1))
-    {} 
-    (into vertices (map reverse vertices))))
-
 (defn update-distances [graph distances unvisited current]
   (let [current-distance (get distances current)]
     (reduce-kv
