@@ -5,10 +5,18 @@
             [io.pedestal.http.route.definition :refer [defroutes]]
             [cheshire.core :refer :all]
             [closeness-centrality.core :refer :all]
+            [halresource.resource :as hal]
             [ring.util.response :as ring-resp]))
 
+(defn to-resource [url] 
+  (hal/new-resource url))
+
+(defn render-resource [resource]
+  (hal/resource->representation resource :json))
+
 (defn home [request]
-  (ring-resp/response ""))
+  (let [resource (to-resource (route/url-for ::create-edge :absolute? true))]
+    (ring-resp/response (render-resource resource))))
 
 (defn create-edge [request]
   (let [origin (get (:params request) "origin")
@@ -19,7 +27,6 @@
                                                 (compare [(get customers key2) key2]
                                                          [(get customers key1) key1])))
                                customers)]
-    (println vertices)
     (ring-resp/response (generate-string sorted-customers))))
 
 (defroutes routes
