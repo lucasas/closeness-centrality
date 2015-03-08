@@ -22,18 +22,13 @@
             next-vertice (apply min-key next-distances unvisited)]
         (recur next-distances next-vertice (disj unvisited next-vertice))))))
 
-(defn shortest-paths [graph]
-  (reduce
-    (fn [m [k v]]
-      (assoc m k (shortest-path graph k)))
-    {}
-    graph))
-
-(defn closeness-centrality [vertices]
-  (let [graph (edges vertices)
-        shortest-paths (shortest-paths graph)]
-    (into {}
-      (map (fn [[k v]] [k (/ (- (count v) 1) (reduce + (vals v)))]) shortest-paths))))
+(defn shortest-paths [vertices]
+  (let [graph (edges vertices)]
+    (reduce
+      (fn [m [k v]]
+        (assoc m k (shortest-path graph k)))
+      {}
+      graph)))
 
 (def current-vertices (ref (load! "resources/edges")))
 

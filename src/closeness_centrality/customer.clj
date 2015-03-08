@@ -2,11 +2,12 @@
   (:require [closeness-centrality.core :as core]))
 
 (def Customer
-  (fn [id score]
+  (fn [id shortest-paths]
     {:id id
-     :score score}))
+     :shortest-paths shortest-paths
+     :score (/ (- (count shortest-paths) 1) (reduce + (vals shortest-paths)))}))
 
-(defn all [data]
-  (map #(Customer (first %) (second %)) data))
+(defn all [shortest-paths]
+  (map #(Customer (first %) (second %)) shortest-paths))
 
-(def customers (ref (all (core/closeness-centrality @core/current-vertices))))
+(def customers (ref (all (core/shortest-paths @core/current-vertices))))

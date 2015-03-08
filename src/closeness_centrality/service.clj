@@ -24,6 +24,7 @@
   (let [origin (get (:params request) "origin")
         destiny (get (:params request) "destiny")
         vertices (update-current-vertices [(keyword origin) (keyword destiny)])]
+    (println vertices)
     (ring-resp/response (generate-string @customers))))
 
 (defroutes routes
