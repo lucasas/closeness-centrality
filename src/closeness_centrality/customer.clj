@@ -2,9 +2,9 @@
   (:require [closeness-centrality.core :as core]))
 
 (def Customer
-  (fn [id closeness-centrality]
+  (fn [id score]
     {:id id
-     :closeness-centrality closeness-centrality}))
+     :score score}))
 
 (defn all [data]
   (map #(Customer (first %) (second %)) data))
