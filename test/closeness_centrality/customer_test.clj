@@ -27,6 +27,7 @@
     (with-redefs [customers (ref (all vertices))] customers
       (set-as-fraudulent :1)
       (is (= ((first @customers) :score) 0))
+      (is (= ((first @customers) :fraudulent) true))
       (is (= ((nth @customers 1) :score) 0.4))
       (is (= ((nth @customers 2) :score) 1/2))
       (is (= ((nth @customers 3) :score) 1/2))

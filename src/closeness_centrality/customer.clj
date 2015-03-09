@@ -24,7 +24,7 @@
     (ref-set customers (map (fn [customer]
                           (let [shortest-paths (customer :shortest-paths)]
                             (cond
-                              (= (customer :id) id) (assoc customer :score 0)
+                              (= (customer :id) id) (assoc customer :score 0 :fraudulent true)
                               (= (shortest-paths id) 1) (update-in customer [:score] * 0.5)
                               (contains? shortest-paths id) (update-in customer [:score] * (- 1 (math/expt (/ 1 2) (shortest-paths id))))
                               :else customer)))
