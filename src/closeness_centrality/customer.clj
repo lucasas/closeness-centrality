@@ -6,7 +6,8 @@
   (fn [id shortest-paths]
     {:id id
      :shortest-paths shortest-paths
-     :score (/ (- (count shortest-paths) 1) (reduce + (vals shortest-paths)))}))
+     :score (/ (- (count shortest-paths) 1) (reduce + (vals shortest-paths)))
+     :fraudulent false}))
 
 (defn all [vertices]
   (let [shortest-paths (core/shortest-paths vertices)]
