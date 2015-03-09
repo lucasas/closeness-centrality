@@ -12,6 +12,7 @@
                  [org.slf4j/log4j-over-slf4j "1.7.7"]
                  [org.clojure/data.csv "0.1.2"]
                  [halresource "0.2.0-SNAPSHOT"]
+                 [org.clojure/math.numeric-tower "0.0.4"]
                  [cheshire "5.4.0"]]
   :min-lein-version "2.0.0"
   :resource-paths ["config", "resources"]
