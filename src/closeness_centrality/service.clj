@@ -23,13 +23,17 @@
 (defn create-edge [request]
   (let [origin (get (:params request) "origin")
         destiny (get (:params request) "destiny")
-        vertices (update-current-vertices [(keyword origin) (keyword destiny)])]
-    (println vertices)
-    (ring-resp/response (generate-string @customers))))
+        vertices (update-current-vertices [(keyword origin) (keyword destiny)])
+        customers (update-customers vertices)]
+    (ring-resp/response (generate-string customers))))
+
+(defn set-as-fraudulent [request]
+  (ring-resp/response ""))
 
 (defroutes routes
   [[["/" {:get home}
      ^:interceptors [body-params/body-params]
+     ["/customer/:id/fraudulent" {:put set-as-fraudulent}]
      ["/edges" {:post create-edge}]]]])
 
 (def service {:env :prod
