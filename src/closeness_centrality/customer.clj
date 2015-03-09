@@ -15,10 +15,6 @@
 
 (def customers (ref (all @core/current-vertices)))
 
-(defn update-customers [vertices]
-  (dosync
-    (ref-set customers (all vertices))))
-
 (defn set-as-fraudulent [id]
   (dosync 
     (ref-set customers (map (fn [customer]
@@ -29,3 +25,9 @@
                               (contains? shortest-paths id) (update-in customer [:score] * (- 1 (math/expt (/ 1 2) (shortest-paths id))))
                               :else customer)))
                         @customers))))
+
+(defn update-customers [vertices]
+  (dosync
+    (let [fraudulent-customers (filter #(true? (% :fraudulent)) @customers)]
+      (ref-set customers (all vertices))
+      (doseq [customer fraudulent-customers] (set-as-fraudulent (customer :id))))))

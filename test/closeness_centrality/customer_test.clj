@@ -20,7 +20,14 @@
     (is (= (nth @customers 1) {:id :2, :shortest-paths {:1 1, :2 0, :3 1, :4 1, :5 1}, :score 1, :fraudulent false}))
     (is (= (nth @customers 2) {:id :3, :shortest-paths {:1 2, :2 1, :3 0, :4 1, :5 2}, :score 4/6, :fraudulent false}))
     (is (= (nth @customers 3) {:id :4, :shortest-paths {:1 2, :2 1, :3 1, :4 0, :5 1}, :score 4/5, :fraudulent false}))
-    (is (= (nth @customers 4) {:id :5, :shortest-paths {:1 2, :2 1, :3 2, :4 1, :5 0}, :score 4/6, :fraudulent false}))))
+    (is (= (nth @customers 4) {:id :5, :shortest-paths {:1 2, :2 1, :3 2, :4 1, :5 0}, :score 4/6, :fraudulent false})))
+  (testing "when there are fraudulent customers"
+    (let [vertices [[:1 :2]]]
+      (with-redefs [customers (ref [{:id :1 :shortest-paths {:2 1} :fraudulent true :score 1}, {:id :2, :shortest-paths {:1 1}, :fraudulent false, :score 1}])] customers
+        (update-customers vertices)
+        (is (= (count @customers) 2))
+        (is (= ((first @customers) :score) 0))
+        (is (= ((last @customers) :score) 0.5))))))
 
 (deftest test-set-as-fraudulent
   (let [vertices [[:1 :2] [:2 :3] [:3 :4] [:4 :5] [:2 :5]]]
