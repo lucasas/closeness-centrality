@@ -5,7 +5,6 @@
             [io.pedestal.http.route.definition :refer [defroutes]]
             [cheshire.core :refer :all]
             [closeness-centrality.core :refer :all]
-            [closeness-centrality.utils :refer :all]
             [closeness-centrality.customer :refer :all]
             [halresource.resource :as hal]
             [ring.util.response :as ring-resp]))
