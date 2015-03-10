@@ -30,4 +30,5 @@
   (dosync
     (let [fraudulent-customers (filter #(true? (% :fraudulent)) @customers)]
       (ref-set customers (all vertices))
-      (doseq [customer fraudulent-customers] (set-as-fraudulent (customer :id))))))
+      (doseq [customer fraudulent-customers] (set-as-fraudulent (customer :id)))))
+  @customers)

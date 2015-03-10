@@ -16,6 +16,15 @@
 (defn render-resource [resource]
   (hal/resource->representation resource :json))
 
+(defn customers-as-resource [customers]
+  (vec (map (fn [customer]
+         (let [resource
+               (-> (to-resource (route/url-for ::fraudulent :params {:id (name (customer :id))} :absolute? true))
+                   (hal/add-properties {:score (customer :score)
+                                       :id (customer :id)}))]
+           (parse-string (render-resource resource))))
+    customers)))
+
 (defn home [request]
   (let [resource (to-resource (route/url-for ::create-edge :absolute? true))]
     (ring-resp/response (render-resource resource))))
@@ -24,16 +33,16 @@
   (let [origin (get (:params request) "origin")
         destiny (get (:params request) "destiny")
         vertices (update-current-vertices [(keyword origin) (keyword destiny)])
-        customers (update-customers vertices)]
-    (ring-resp/response (generate-string customers))))
+        customers (sort-by :score > (update-customers vertices))]
+    (ring-resp/response (generate-string (customers-as-resource customers)))))
 
-(defn set-as-fraudulent [request]
+(defn fraudulent [request]
   (ring-resp/response ""))
 
 (defroutes routes
   [[["/" {:get home}
      ^:interceptors [body-params/body-params]
-     ["/customer/:id/fraudulent" {:put set-as-fraudulent}]
+     ["/customer/:id/fraudulent" {:put fraudulent}]
      ["/edges" {:post create-edge}]]]])
 
 (def service {:env :prod
