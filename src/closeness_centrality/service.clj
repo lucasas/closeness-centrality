@@ -36,7 +36,9 @@
     (ring-resp/response (generate-string (customers-as-resource customers)))))
 
 (defn fraudulent [request]
-  (ring-resp/response ""))
+  (let [id (get-in request [:path-params :id])]
+    (set-as-fraudulent (keyword id))
+    (ring-resp/response "Resource updated successfully")))
 
 (defroutes routes
   [[["/" {:get home}
