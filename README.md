@@ -32,7 +32,7 @@ The endpoint `/edge` can be used to insert new edges. It works sending a POST re
 curl -d "origin=4&destiny=2" http://localhost:8080/edges
 ```
 
-The response will be all customer sorted by `score`:
+The response will be all customers sorted by `score`:
 
 ```
 [
@@ -63,7 +63,7 @@ The response will be all customer sorted by `score`:
 ]
 ```
 
-The `fraudulent` endpoint adjust customer score according to the following rule:
+The `fraudulent` endpoint adjusts customer's score according to the following rule:
 
 ```
 - The fraudulent customer score should be zero.
