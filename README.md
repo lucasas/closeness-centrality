@@ -65,7 +65,6 @@ The response will be all customers sorted by `score`:
 
 The `fraudulent` endpoint adjusts customer's score according to the following rule:
 
-```
 - The fraudulent customer score should be zero.
 - Customers directly referred by the "fraudulent" customer should have their score halved.
 - Scores of customers indirectly referred by the "fraudulent" customer should be multiplied by a coefficient F:
@@ -73,11 +72,10 @@ The `fraudulent` endpoint adjusts customer's score according to the following ru
 
     where k is the shortest path from the "fraudulent" customer
     to the customer in question.
-```
 
 ## Test
 
-Just to run: 
+Just run: 
 
 ```
 lein test
