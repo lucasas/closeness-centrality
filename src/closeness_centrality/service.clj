@@ -18,7 +18,8 @@
 (defn customers-as-resource [customers]
   (vec (map (fn [customer]
          (let [resource
-               (-> (to-resource (route/url-for ::fraudulent :params {:id (name (customer :id))} :absolute? true))
+               (-> (to-resource (route/url-for ::update :params {:id (name (customer :id))} :absolute? true))
+                   (hal/add-link :rel "fraudulent" :href (route/url-for ::fraudulent :params {:id (name (customer :id))} :absolute? true))
                    (hal/add-properties {:score (customer :score)
                                        :id (customer :id)}))]
            (parse-string (render-resource resource))))
@@ -27,6 +28,9 @@
 (defn home [request]
   (let [resource (to-resource (route/url-for ::create-edge :absolute? true))]
     (ring-resp/response (render-resource resource))))
+
+(defn update [request]
+  (ring-resp/response ""))
 
 (defn create-edge [request]
   (let [origin (get (:params request) "origin")
@@ -43,6 +47,7 @@
 (defroutes routes
   [[["/" {:get home}
      ^:interceptors [body-params/body-params]
+     ["/customer/:id" {:put update}]
      ["/customer/:id/fraudulent" {:put fraudulent}]
      ["/edges" {:post create-edge}]]]])
 
