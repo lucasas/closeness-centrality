@@ -4,10 +4,10 @@
 (defn update-distances [graph distances unvisited current]
   (let [current-distance (get distances current)]
     (reduce-kv
-      (fn [c neighbor neighbor-distance]
+      (fn [current-distances neighbor neighbor-distance]
         (if (unvisited neighbor)
-          (update-in c [neighbor] min (+ current-distance neighbor-distance))
-          c))
+          (update-in current-distances [neighbor] min (+ current-distance neighbor-distance))
+          current-distances))
       distances
       (get graph current))))
 
@@ -24,9 +24,9 @@
 
 (defn shortest-paths [vertices]
   (let [graph (edges vertices)]
-    (reduce
-      (fn [m [k v]]
-        (assoc m k (shortest-path graph k)))
+    (reduce-kv
+      (fn [shortest-paths vertice value]
+        (assoc shortest-paths vertice (shortest-path graph vertice)))
       {}
       graph)))
 
